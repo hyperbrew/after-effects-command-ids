@@ -40,7 +40,6 @@ const cmdList: DataByCommands = {};
 
 const formatData = (data: FormatPair[]) => {
   data.map(({ obj, year }) => {
-    console.log(obj, year);
     Object.keys(obj).map((key) => {
       const cmd = obj[key] as keyof DataCommand;
       if (!cmdList[cmd]) {
