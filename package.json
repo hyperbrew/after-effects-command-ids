@@ -4,7 +4,7 @@
   "homepage": "https://hyperbrew.github.io/after-effects-command-ids/",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc && vite build --base=./",
     "serve": "vite preview",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
