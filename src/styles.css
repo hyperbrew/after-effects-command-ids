@@ -1,0 +1,90 @@
+body {
+  background-color: #061520;
+  color: #d3dfe9;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+.main {
+}
+h2 {
+  text-align: center;
+}
+.searchbox {
+  background-color: transparent;
+  color: #d3dfe9;
+  border: 1px solid#374b5a;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  outline: none;
+  overflow: hidden;
+  width: calc(100% - 2rem);
+}
+.results {
+  outline: none;
+  border: 1px solid#374b5a;
+  border-right: none;
+  border-left: none;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  height: calc(100vh - 11rem);
+  overflow: scroll;
+}
+.result {
+  display: flex;
+  flex-direction: row;
+  line-height: 35px;
+}
+table {
+  /* margin: auto; */
+  width: 100%;
+}
+tr {
+  border-bottom: 1px solid #374b5a;
+}
+.result-code {
+  text-align: right;
+  width: 40%;
+  margin-left: 1rem;
+}
+.result-header {
+  border-bottom: 3px solid #374b5a;
+}
+.result-key {
+  text-align: left;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.result-name {
+  width: 300px;
+  /* margin-left: 1rem; */
+}
+.result-year {
+  width: 6%;
+  min-width: 60px;
+  margin-left: 1rem;
+}
+.result-na {
+  opacity: 0.3;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 0px;
+  background: #222;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  background: #222;
+  border-radius: 5px;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 5px;
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #333;
+}
