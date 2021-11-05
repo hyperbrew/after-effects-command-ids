@@ -8,6 +8,8 @@ _Find and use Command IDs for After Effects across versions_
 
 Open the viewer to quickly search and find the Command ID for your version of After Effects:
 
+https://hyperbrew.github.io/after-effects-command-ids
+
 ## Usage
 
 Use Command IDs in After Effects with `app.executeCommand();`
