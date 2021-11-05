@@ -1,6 +1,6 @@
-# After Effects Command Ids
+# After Effects Command IDs &middot; [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/facebook/react/blob/main/LICENSE)
 
-_Find and use Command IDs for After Effects across versions_
+Find and use Command IDs for scripting in Adobe After Effects across versions.
 
 ---
 
@@ -10,13 +10,25 @@ Open the viewer to quickly search and find the Command ID for your version of Af
 
 https://hyperbrew.github.io/after-effects-command-ids
 
+![Viewer](./media/viewer.jpg)
+
+---
+
 ## Usage
 
 Use Command IDs in After Effects with `app.executeCommand();`
 
+---
+
 ## JSON
 
-Download the complete list of JSON file for each version of After Effects in the `json` folder.
+Download the complete list of JSON file for each version of After Effects in the `/json/` folder.
+
+---
+
+## Parser
+
+See the parser in the `/parser/parse-dat.js` to find Command IDs yourself.
 
 ---
 
