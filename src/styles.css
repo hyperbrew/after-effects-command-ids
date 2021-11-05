@@ -70,7 +70,7 @@ tr {
 }
 /* width */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 0px;
   height: 0px;
   background: #222;
 }
