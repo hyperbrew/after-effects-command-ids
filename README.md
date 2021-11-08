@@ -2,6 +2,8 @@
 
 Find and use Command IDs for scripting in Adobe After Effects across versions.
 
+_Full blog post:_ https://hyperbrew.co/blog/after-effects-command-ids/
+
 ---
 
 ## Viewer
