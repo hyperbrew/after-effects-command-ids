@@ -1,6 +1,7 @@
 import * as React from "react";
 const { useState } = React;
 
+import cmds2023 from "../json/2023.json";
 import cmds2022 from "../json/2022.json";
 import cmds2021 from "../json/2021.json";
 import cmds2020 from "../json/2020.json";
@@ -27,6 +28,7 @@ interface FormatPair {
 }
 
 const years = [
+  "2023",
   "2022",
   "2021",
   "2020",
@@ -52,6 +54,7 @@ const formatData = (data: FormatPair[]) => {
 };
 
 formatData([
+  { obj: cmds2023, year: "2023" },
   { obj: cmds2022, year: "2022" },
   { obj: cmds2021, year: "2021" },
   { obj: cmds2020, year: "2020" },
@@ -66,7 +69,7 @@ export default () => {
   const [val, setVal] = useState("");
   return (
     <div className="main">
-      <h2>After Effects Command IDs [2015 - 2022]</h2>
+      <h2>After Effects Command IDs [2015 - 2023]</h2>
       <input
         className="searchbox"
         type="text"
