@@ -16,5 +16,6 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["./src", "./json"]
+  "include": ["./src", "./json"],
+  "exclude": ["node_modules/@types/react/index.d.ts"]
 }
