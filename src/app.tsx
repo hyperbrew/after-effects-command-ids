@@ -69,7 +69,7 @@ export default () => {
   const [val, setVal] = useState("");
   return (
     <div className="main">
-      <h2>After Effects Command IDs [2015 - 2023]</h2>
+      <h2>After Effects Command IDs</h2>
       <input
         className="searchbox"
         type="text"
