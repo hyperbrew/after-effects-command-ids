@@ -11,7 +11,8 @@ import cmds2017 from "../json/2017.json";
 import cmds2015_3 from "../json/2015.3.json";
 import cmds2015 from "../json/2015.json";
 
-import "./styles.css";
+import "./styles.scss";
+import { Badge } from "./badge/badge";
 
 interface DataByYear {
   [key: string]: string;
@@ -65,11 +66,16 @@ formatData([
   { obj: cmds2015, year: "2015" },
 ]);
 
+const isIframe = window.self != window.top;
+
 export default () => {
   const [val, setVal] = useState("");
   return (
     <div className="main">
       <h2>After Effects Command IDs</h2>
+
+      {!isIframe && <Badge />}
+
       <input
         className="searchbox"
         type="text"
@@ -97,11 +103,12 @@ export default () => {
                 cmd.toLowerCase().indexOf(val.toLowerCase()) > -1 && (
                   <tr className="result" key={i}>
                     <td className="result-name">{cmd}</td>
-                    {years.map((year) => (
+                    {years.map((year, ii) => (
                       <td
                         className={`result-year ${
                           !cmdList[cmd][year] && "result-na"
                         }`}
+                        key={ii}
                       >
                         {cmdList[cmd][year] || "N/A"}
                       </td>
