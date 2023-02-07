@@ -1,6 +1,8 @@
 import * as React from "react";
 const { useState } = React;
 
+import manual from "../json/manual.json";
+
 import cmds2023 from "../json/2023.json";
 import cmds2022 from "../json/2022.json";
 import cmds2021 from "../json/2021.json";
@@ -29,6 +31,7 @@ interface FormatPair {
 }
 
 const years = [
+  "(manual)",
   "2023",
   "2022",
   "2021",
@@ -55,6 +58,7 @@ const formatData = (data: FormatPair[]) => {
 };
 
 formatData([
+  { obj: manual, year: "(manual)" },
   { obj: cmds2023, year: "2023" },
   { obj: cmds2022, year: "2022" },
   { obj: cmds2021, year: "2021" },
@@ -91,7 +95,15 @@ export default () => {
               Name
             </th>
             {years.map((year, i) => (
-              <th key={i + 1} className="result-year">
+              <th
+                key={i + 1}
+                className="result-year"
+                title={
+                  year === "(manual)"
+                    ? "Entry manually created, Version uncertain."
+                    : year
+                }
+              >
                 {year.replace("_", ".")}
               </th>
             ))}
@@ -116,6 +128,26 @@ export default () => {
                   </tr>
                 )
             )}
+          {/* {Object.keys(manual)
+            .sort()
+            .map(
+              (cmd, i) =>
+                cmd.toLowerCase().indexOf(val.toLowerCase()) > -1 && (
+                  <tr className="result" key={i}>
+                    <td className="result-name">{cmd}</td>
+                    {years.map((year, ii) => (
+                      <td
+                        className={`result-year ${
+                          !cmdList[cmd][year] && "result-na"
+                        }`}
+                        key={ii}
+                      >
+                        {cmdList[cmd][year] || "N/A"}
+                      </td>
+                    ))}
+                  </tr>
+                )
+            )} */}
         </tbody>
       </table>
     </div>

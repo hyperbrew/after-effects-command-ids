@@ -43,6 +43,9 @@ table {
 tr {
   border-bottom: 1px solid #374b5a;
 }
+th {
+  user-select: none;
+}
 .result-code {
   text-align: right;
   width: 40%;
