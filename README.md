@@ -1,5 +1,8 @@
 # After Effects Command IDs &middot; [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/hyperbrew/after-effects-command-ids/blob/master/LICENSE)
+[![Chat](https://img.shields.io/badge/chat-discord-7289da.svg)](https://discord.gg/PC3EvvuRbc)
+
 Find and use Command IDs for scripting in Adobe After Effects across versions.
 
 _Full blog post:_ https://hyperbrew.co/blog/after-effects-command-ids/
