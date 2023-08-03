@@ -3,6 +3,8 @@ const { useState } = React;
 
 import manual from "../json/manual.json";
 
+import scanned from "../json/scanned.json";
+
 import cmds2023 from "../json/2023.json";
 import cmds2022 from "../json/2022.json";
 import cmds2021 from "../json/2021.json";
@@ -32,6 +34,7 @@ interface FormatPair {
 
 const years = [
   "(manual)",
+  "(scanned)",
   "2023",
   "2022",
   "2021",
@@ -59,6 +62,7 @@ const formatData = (data: FormatPair[]) => {
 
 formatData([
   { obj: manual, year: "(manual)" },
+  { obj: scanned, year: "(scanned)" },
   { obj: cmds2023, year: "2023" },
   { obj: cmds2022, year: "2022" },
   { obj: cmds2021, year: "2021" },
