@@ -114,6 +114,7 @@ export default () => {
           </tr>
           {Object.keys(cmdList)
             .sort()
+
             .map(
               (cmd, i) =>
                 cmd.toLowerCase().indexOf(val.toLowerCase()) > -1 && (
