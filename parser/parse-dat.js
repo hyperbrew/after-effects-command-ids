@@ -26,7 +26,7 @@ const getCmdIds = (datFile) => {
   });
 };
 
-const version = 2023;
+const version = 2024;
 const datFile = `C:/Program Files/Adobe/Adobe After Effects ${version}/Support Files/Dictionaries/es_ES/after_effects_es_ES.dat`;
 
 getCmdIds(datFile).then((res) => {
