@@ -13,6 +13,7 @@ import cmds2018 from "../json/2018.json";
 import cmds2017 from "../json/2017.json";
 import cmds2015_3 from "../json/2015.3.json";
 import cmds2015 from "../json/2015.json";
+import nameOverrides from "../json/name-overrides.json";
 
 import "./styles.scss";
 import { Badge } from "./badge/badge";
@@ -46,10 +47,19 @@ const years = [
 ];
 const cmdList: DataByCommands = {};
 
+const overrideMatch = (key: string) => {
+  const match = nameOverrides[key as keyof typeof nameOverrides];
+  if (match) {
+    console.log(`Override: ${key} -> ${match}`);
+    return match;
+  }
+  return key;
+};
+
 const formatData = (data: FormatPair[]) => {
   data.map(({ obj, year }) => {
     Object.keys(obj).map((key) => {
-      const cmd = obj[key] as keyof DataCommand;
+      const cmd = overrideMatch(obj[key]) as keyof DataCommand;
       if (!cmdList[cmd]) {
         cmdList[cmd] = { [year]: key };
       } else {
