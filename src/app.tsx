@@ -5,6 +5,7 @@ import manual from "../json/manual.json";
 
 import scanned from "../json/scanned.json";
 
+import cmds2024 from "../json/2024.json";
 import cmds2023 from "../json/2023.json";
 import cmds2022 from "../json/2022.json";
 import cmds2021 from "../json/2021.json";
@@ -14,6 +15,7 @@ import cmds2018 from "../json/2018.json";
 import cmds2017 from "../json/2017.json";
 import cmds2015_3 from "../json/2015.3.json";
 import cmds2015 from "../json/2015.json";
+import nameOverrides from "../json/name-overrides.json";
 
 import "./styles.scss";
 import { Badge } from "./badge/badge";
@@ -35,6 +37,7 @@ interface FormatPair {
 const years = [
   "(manual)",
   "(scanned)",
+  "2024",
   "2023",
   "2022",
   "2021",
@@ -47,10 +50,19 @@ const years = [
 ];
 const cmdList: DataByCommands = {};
 
+const overrideMatch = (key: string) => {
+  const match = nameOverrides[key as keyof typeof nameOverrides];
+  if (match) {
+    console.log(`Override: ${key} -> ${match}`);
+    return match;
+  }
+  return key;
+};
+
 const formatData = (data: FormatPair[]) => {
   data.map(({ obj, year }) => {
     Object.keys(obj).map((key) => {
-      const cmd = obj[key] as keyof DataCommand;
+      const cmd = overrideMatch(obj[key]) as keyof DataCommand;
       if (!cmdList[cmd]) {
         cmdList[cmd] = { [year]: key };
       } else {
@@ -63,6 +75,7 @@ const formatData = (data: FormatPair[]) => {
 formatData([
   { obj: manual, year: "(manual)" },
   { obj: scanned, year: "(scanned)" },
+  { obj: cmds2024, year: "2024" },
   { obj: cmds2023, year: "2023" },
   { obj: cmds2022, year: "2022" },
   { obj: cmds2021, year: "2021" },
