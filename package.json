@@ -1,6 +1,6 @@
 {
   "name": "after-effects-cmd-ids",
-  "version": "0.0.3",
+  "version": "2.0.0",
   "homepage": "https://hyperbrew.github.io/after-effects-command-ids/",
   "scripts": {
     "dev": "vite",

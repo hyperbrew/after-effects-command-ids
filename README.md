@@ -1,5 +1,7 @@
 # After Effects Command IDs
 
+### v2.0.0
+
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/hyperbrew/after-effects-command-ids/blob/master/LICENSE)
 [![Chat](https://img.shields.io/badge/chat-discord-7289da.svg)](https://discord.gg/PC3EvvuRbc)
 
@@ -31,13 +33,25 @@ Download the complete list of JSON file for each version of After Effects in the
 
 ---
 
-## Parser
+## Scanner
 
-See the parser in the [`/parser/parse-dat.js`](./parser/parse-dat.js) to find Command IDs yourself.
+v2.0 adds a MacOS Menu Scanner to the process to capture even more Command IDs.
+
+To run yourself:
+
+- clone the repo on Mac
+- install dependencies: `yarn`
+- Launch the desired After Effects version
+- Update the version variable in `parser\menu-scan-run.js` to your After Effects Version (e.g. `2024`, `2025`, etc)
+- run the scanner: `yarn scan`
+- wait several minutes for the process to complete
+- results will printed to: `8-merged-results-vvvv.json`
+
+See the scanner in [`/parser/menu-scan-run.js`](./parser/menu-scan-run.js) for more details
 
 ---
 
-## Develop Quickstart
+## Menu Develop Quickstart
 
 - Install: `yarn`
 - Develop: `yarn dev`
