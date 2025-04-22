@@ -1,13 +1,14 @@
 {
   "name": "after-effects-cmd-ids",
-  "version": "0.0.3",
+  "version": "2.0.0",
   "homepage": "https://hyperbrew.github.io/after-effects-command-ids/",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build --base=./",
     "serve": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "scan": "node parser/menu-scan-run.js"
   },
   "dependencies": {
     "gh-pages": "5.0.0",

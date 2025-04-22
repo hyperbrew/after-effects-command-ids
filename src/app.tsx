@@ -3,6 +3,8 @@ const { useState } = React;
 
 import manual from "../json/manual.json";
 
+
+import cmds2025 from "../json/2025.json";
 import cmds2024 from "../json/2024.json";
 import cmds2023 from "../json/2023.json";
 import cmds2022 from "../json/2022.json";
@@ -34,6 +36,7 @@ interface FormatPair {
 
 const years = [
   "(manual)",
+  "2025",
   "2024",
   "2023",
   "2022",
@@ -71,6 +74,7 @@ const formatData = (data: FormatPair[]) => {
 
 formatData([
   { obj: manual, year: "(manual)" },
+  { obj: cmds2025, year: "2025" },
   { obj: cmds2024, year: "2024" },
   { obj: cmds2023, year: "2023" },
   { obj: cmds2022, year: "2022" },
@@ -123,6 +127,7 @@ export default () => {
           </tr>
           {Object.keys(cmdList)
             .sort()
+
             .map(
               (cmd, i) =>
                 cmd.toLowerCase().indexOf(val.toLowerCase()) > -1 && (
@@ -130,9 +135,8 @@ export default () => {
                     <td className="result-name">{cmd}</td>
                     {years.map((year, ii) => (
                       <td
-                        className={`result-year ${
-                          !cmdList[cmd][year] && "result-na"
-                        }`}
+                        className={`result-year ${!cmdList[cmd][year] && "result-na"
+                          }`}
                         key={ii}
                       >
                         {cmdList[cmd][year] || "N/A"}
