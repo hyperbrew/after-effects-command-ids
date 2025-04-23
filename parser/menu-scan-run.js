@@ -19,20 +19,25 @@ const flat3Path = path.join(stepsFolder, `3-results-flat-${version}.js`);
 const clean4Path = path.join(stepsFolder, `4-results-clean-${version}.json`);
 const jsx5Path = path.join(stepsFolder, `5-results-extend-script-${version}.jsx`);
 const out6Path = path.join(stepsFolder, "6-results-filtered.json");
+const out6PathMissing = path.join(stepsFolder, "6-results-missing.json");
 const dict7Path = path.join(stepsFolder, `7-dictionary-results-${version}.json`);
+const uniqueMenu7Path = path.join(stepsFolder, `7-unique-menu-results-${version}.json`);
 const merged8Path = path.join(stepsFolder, `8-merged-results-${version}.json`);
+
+const args = process.argv.slice(2);
 
 async function run() {
 
 
     //* 1. Run Scanner
     console.log("Running scanner (this will take several minutes) ...");
-    fs.existsSync(raw1Path) && fs.unlinkSync(raw1Path);
-    child_process.execSync(`osascript "${scannerPath}" > "${raw1Path}"`, {
-        encoding: "utf-8",
-    })
 
-
+    if (!args.includes('2')) {
+        fs.existsSync(raw1Path) && fs.unlinkSync(raw1Path);
+        child_process.execSync(`osascript "${scannerPath}" > "${raw1Path}"`, {
+            encoding: "utf-8",
+        })
+    }
     const raw = fs.readFileSync(raw1Path, { encoding: 'utf-8' })
 
     //* 2. Fix Typos
@@ -46,11 +51,11 @@ async function run() {
         // remove all new lines
         .replace(/\\n/g, '')
         .replace(/\\r/g, '')
-        .replace(/\s+/g, '')
+        .replace(/\s{2,}/g, '')
         .replace(emailRegex, '');
 
     // remove trailing commas
-    fixed = fixed.replace(/,\}/g, '}');
+    fixed = fixed.replace(/,\s\}/g, '}');
     fs.existsSync(fixed2Path) && fs.unlinkSync(fixed2Path);
     fs.writeFileSync(fixed2Path, fixed);
     console.log(`File saved: ${path.basename(fixed2Path)}`);
@@ -69,15 +74,20 @@ async function run() {
 
     //* 3. Flatten object
     const IGNORE_CATEGORIES = [
-        "RecentItems",
+        'Apple',
+        "Recent Items",
         "Extensions",
-        "OpenRecent",
-        "RecentScriptFiles"
+        "Open Recent",
+        "Recent Script Files"
     ];
     const IGNORE_EXTENSIONS = [
         '.jsx',
         '.jsxbin',
         '.js',
+    ];
+    const IGNORE_PATTERNS = [
+        'in Finder',
+        'missing value'
     ];
 
     function extractStrings(obj) {
@@ -95,6 +105,7 @@ async function run() {
                 });
             } else if (typeof value === "string") {
                 if (IGNORE_EXTENSIONS.find((ext) => value.includes(ext))) return;
+                if (IGNORE_PATTERNS.find((pattern) => value.includes(pattern))) return;
                 result.push(value);
             }
         };
@@ -114,8 +125,8 @@ async function run() {
     // Tidy Up
     const cleanStrings = strings.map((item) => {
         return item
-            .replace(/….*/g, '')
-            .replace(/\.\.\./g, '')
+            // .replace(/….*/g, '')
+            // .replace(/\.\.\./g, '')
             .replace(/Can’t/g, '')
             .replace(/Show“.*”inFinder/g, '')
             .replace(/.*.app/, '')
@@ -143,32 +154,77 @@ async function run() {
 
     // Run in ExtendScript to filter actual commands
 
-    const esString = `var s = ${jsonList};    
+    const esString = `
+
+    function includes(arr, value){
+        for (var i = 0; i < arr.length; i++) {
+            var element = arr[i];
+            if (element === value) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    var oldEncoding = $.encoding;
+    var changedEncoding = false;
+    if(oldEncoding !== "UTF-8") {
+        $.appEncoding = "UTF-8";
+        changedEncoding = true;
+    }
+    var s = ${jsonList};    
     var res = {};
+    var missing = [];
     
     for (var i = 0; i < s.length; i++) {
+        var og = s[i];
         var element = s[i];
-        var elementSimple = element.replace(/\s/g, ''); // most command names work without spaces
-        var cmd = app.findMenuCommandId(element)
-        var cmdSimple = app.findMenuCommandId(elementSimple);
-        if(cmdSimple){
-            res[cmd] = elementSimple;
-        }else{
-            res[cmd] = element;
-        }
+        var variants = [element];
+        var cmd = 0;
+
+        var elementA = element.replace(/\\s/g, ''); // no spaces
+        if(elementA !== element) variants.push(elementA);
+
+        var elementB = elementA.replace(/…/g, ''); // no ellipsis
+        if(elementB !== elementA) variants.push(elementB);
         
+        var elementC = elementB.replace(/\\(.*?\\)/g, ''); // no parentheses
+        if(elementC !== elementB) variants.push(elementC);
+
+        for (var j = 0; j < variants.length; j++) {
+            var cmd = app.findMenuCommandId(variants[j]);
+            if (cmd !== 0) {
+                res[cmd] = variants[j];
+                break;
+            }
+        }
+        if (cmd !== 0){ 
+            continue;
+        }
+        else{
+            missing = missing.concat(variants);
+        }
+
     }
-    JSON.stringify(res);
-    file = new File("${out6Path}");
+    var file = new File("${out6Path}");
     file.open("w");
     file.write(JSON.stringify(res, null, 2));
     file.close();
+
+    var fileMissing = new File("${out6PathMissing}");
+    fileMissing.open("w");
+    fileMissing.write(JSON.stringify(missing, null, 2));
+    fileMissing.close();
+    if(changedEncoding) {
+        $.appEncoding = oldEncoding;
+    }
     `;
 
     fs.existsSync(jsx5Path) && fs.unlinkSync(jsx5Path);
     fs.writeFileSync(jsx5Path, esString);
     console.log(`File saved: ${path.basename(jsx5Path)}`);
 
+    fs.existsSync(out6PathMissing) && fs.unlinkSync(out6PathMissing);
     fs.existsSync(out6Path) && fs.unlinkSync(out6Path);
     child_process.execSync(`osascript -l JavaScript -e 'ae = Application("Adobe After Effects ${version}"); ae.activate(); ae.doscriptfile("${jsx5Path}");'`);
 
@@ -211,7 +267,8 @@ async function run() {
     fs.writeFileSync(dict7Path, txt, { encoding: "utf-8", });
     console.log(`File saved: ${path.basename(dict7Path)}`);
 
-    const merged = Object.assign({}, filteredObj);
+    let merged = Object.assign({}, filteredObj);
+    let uniqueMenu = Object.assign({}, filteredObj);
     let overwriteCount = 0;
     Object.keys(dictionaryObj).map((key) => {
         if (filteredObj[key] && filteredObj[key] !== dictionaryObj[key]) {
@@ -219,12 +276,19 @@ async function run() {
             console.log(`Overwriting ${filteredObj[key]} with ${dictionaryObj[key]}`);
         }
         merged[key] = dictionaryObj[key];
+        delete uniqueMenu[key];
     });
+
+    fs.existsSync(uniqueMenu7Path) && fs.unlinkSync(uniqueMenu7Path);
+    fs.writeFileSync(uniqueMenu7Path, JSON.stringify(uniqueMenu, null, '\t'), { encoding: "utf-8", });
+    console.log(`File saved: ${path.basename(uniqueMenu7Path)}`);
+
     console.log({
         menuCount: Object.keys(filteredObj).length,
         dictionaryCount: Object.keys(dictionaryObj).length,
         overwriteCount: overwriteCount,
         mergedCount: Object.keys(merged).length,
+        uniqueMenuCount: Object.keys(uniqueMenu).length,
     });
 
     const mergedTxt = JSON.stringify(merged, null, "\t");

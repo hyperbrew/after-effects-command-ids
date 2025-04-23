@@ -1,6 +1,6 @@
 # After Effects Command IDs
 
-### v2.0.0
+### v2.0.1
 
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](https://github.com/hyperbrew/after-effects-command-ids/blob/master/LICENSE)
 [![Chat](https://img.shields.io/badge/chat-discord-7289da.svg)](https://discord.gg/PC3EvvuRbc)
@@ -43,7 +43,7 @@ To run yourself:
 - install dependencies: `yarn`
 - Launch the desired After Effects version
 - Update the version variable in `parser\menu-scan-run.js` to your After Effects Version (e.g. `2024`, `2025`, etc)
-- run the scanner: `yarn scan`
+- run the scanner: `yarn scan` (or just `yarn scan-post` if you already have generated the `1-results-raw-vvvv.txt` which takes several minues)
 - wait several minutes for the process to complete
 - results will printed to: `8-merged-results-vvvv.json`
 
