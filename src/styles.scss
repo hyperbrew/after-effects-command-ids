@@ -45,6 +45,11 @@ tr {
 }
 th {
   user-select: none;
+  sup {
+    font-weight: 100;
+    font-size: 0.65rem;
+    margin-left: 0.2rem;
+  }
 }
 .result-code {
   text-align: right;
@@ -65,7 +70,7 @@ th {
 }
 .result-year {
   width: 6%;
-  min-width: 60px;
+  min-width: 70px;
   margin-left: 1rem;
 }
 .result-na {

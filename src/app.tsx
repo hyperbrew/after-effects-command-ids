@@ -3,7 +3,6 @@ const { useState } = React;
 
 import manual from "../json/manual.json";
 
-
 import cmds2025 from "../json/2025.json";
 import cmds2024 from "../json/2024.json";
 import cmds2023 from "../json/2023.json";
@@ -72,20 +71,22 @@ const formatData = (data: FormatPair[]) => {
   });
 };
 
-formatData([
-  { obj: manual, year: "(manual)" },
-  { obj: cmds2025, year: "2025" },
-  { obj: cmds2024, year: "2024" },
-  { obj: cmds2023, year: "2023" },
-  { obj: cmds2022, year: "2022" },
-  { obj: cmds2021, year: "2021" },
-  { obj: cmds2020, year: "2020" },
-  { obj: cmds2019, year: "2019" },
-  { obj: cmds2018, year: "2018" },
-  { obj: cmds2017, year: "2017" },
-  { obj: cmds2015_3, year: "2015_3" },
-  { obj: cmds2015, year: "2015" },
-]);
+const dataObj = [
+  { obj: manual, year: "(manual)", count: Object.keys(manual).length },
+  { obj: cmds2025, year: "2025", count: Object.keys(cmds2025).length },
+  { obj: cmds2024, year: "2024", count: Object.keys(cmds2024).length },
+  { obj: cmds2023, year: "2023", count: Object.keys(cmds2023).length },
+  { obj: cmds2022, year: "2022", count: Object.keys(cmds2022).length },
+  { obj: cmds2021, year: "2021", count: Object.keys(cmds2021).length },
+  { obj: cmds2020, year: "2020", count: Object.keys(cmds2020).length },
+  { obj: cmds2019, year: "2019", count: Object.keys(cmds2019).length },
+  { obj: cmds2018, year: "2018", count: Object.keys(cmds2018).length },
+  { obj: cmds2017, year: "2017", count: Object.keys(cmds2017).length },
+  { obj: cmds2015_3, year: "2015_3", count: Object.keys(cmds2015_3).length },
+  { obj: cmds2015, year: "2015", count: Object.keys(cmds2015).length },
+];
+
+formatData(dataObj);
 
 const isIframe = window.self != window.top;
 
@@ -122,6 +123,7 @@ export default () => {
                 }
               >
                 {year.replace("_", ".")}
+                <sup>{dataObj.find((obj) => obj.year === year)?.count}</sup>
               </th>
             ))}
           </tr>
@@ -135,8 +137,9 @@ export default () => {
                     <td className="result-name">{cmd}</td>
                     {years.map((year, ii) => (
                       <td
-                        className={`result-year ${!cmdList[cmd][year] && "result-na"
-                          }`}
+                        className={`result-year ${
+                          !cmdList[cmd][year] && "result-na"
+                        }`}
                         key={ii}
                       >
                         {cmdList[cmd][year] || "N/A"}
