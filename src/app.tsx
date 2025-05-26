@@ -65,7 +65,21 @@ const formatData = (data: FormatPair[]) => {
       if (!cmdList[cmd]) {
         cmdList[cmd] = { [year]: key };
       } else {
-        cmdList[cmd][year] = key;
+        if (cmdList[cmd][year]) {
+          console.warn(
+            `Duplicate command found: ${cmd} for year ${year}. Existing key: ${cmdList[cmd][year]}, new key: ${key}.`
+          );
+          let i = 2;
+          const freeCmdName = `${cmd} (${i})`;
+          if (!cmdList[freeCmdName]) {
+            console.log(`new cmd ${freeCmdName}`);
+            cmdList[freeCmdName] = { [year]: key };
+          } else {
+            cmdList[freeCmdName][year] = key;
+          }
+        } else {
+          cmdList[cmd][year] = key;
+        }
       }
     });
   });
